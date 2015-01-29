@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "chai": "^1.10.0",
+    "express": "^4.11.1",
     "jscs": "^1.10.0",
     "jshint": "^2.6.0",
     "mocha": "^2.1.0",
