@@ -1,0 +1,34 @@
+{
+  "name": "strong-xstats",
+  "version": "1.0.0-1",
+  "description": "An Express middleware for collecting HTTP statistics.",
+  "keywords": [
+    "StrongLoop",
+    "LoopBack",
+    "Express",
+    "Statistics",
+    "Metrics"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/strongloop/strong-xstats"
+  },
+  "main": "index.js",
+  "scripts": {
+    "pretest": "jscs . && jshint .",
+    "test": "mocha"
+  },
+  "license": {
+    "name": "Dual Artistic-2.0/StrongLoop",
+    "url": "https://github.com/strongloop/loopback-boot/blob/master/LICENSE.md"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "chai": "^1.10.0",
+    "jscs": "^1.10.0",
+    "jshint": "^2.6.0",
+    "mocha": "^2.1.0",
+    "supertest": "^0.15.0"
+  }
+}
