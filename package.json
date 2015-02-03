@@ -1,5 +1,5 @@
 {
-  "name": "strong-xstats",
+  "name": "strong-express-metrics",
   "version": "1.0.0-1",
   "description": "An Express middleware for collecting HTTP statistics.",
   "keywords": [
@@ -11,7 +11,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/strongloop/strong-xstats"
+    "url": "https://github.com/strongloop/strong-express-metrics"
   },
   "main": "index.js",
   "scripts": {
@@ -20,7 +20,7 @@
   },
   "license": {
     "name": "Dual Artistic-2.0/StrongLoop",
-    "url": "https://github.com/strongloop/loopback-boot/blob/master/LICENSE.md"
+    "url": "https://github.com/strongloop/strong-express-metrics/blob/master/LICENSE.md"
   },
   "dependencies": {
   },
