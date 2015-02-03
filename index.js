@@ -31,6 +31,10 @@ function createStatsHandler(recordBuilder) {
     var start = new Date();
     res.on('finish', function() {
       res.durationInMs = new Date() - start;
+
+      // Performance optimization: skip when there are no observers
+      if (observers.length < 1) return;
+
       try {
         var record = createRecord(recordBuilder, req, res);
         notifyObservers(record);
