@@ -28,9 +28,14 @@ module.exports.onRecord = onRecord;
 
 function createStatsHandler(recordBuilder) {
   return function statistics(req, res, next) {
-    var start = new Date();
+    req.__start = new Date();
+
+    // Save the client address, as it is not available in Node v0.10
+    // at the time when the response was sent
+    req.__clientAddress = req.ip || req.connection.remoteAddress;
+
     res.on('finish', function() {
-      res.durationInMs = new Date() - start;
+      res.durationInMs = new Date() - req.__start;
 
       // Performance optimization: skip when there are no observers
       if (observers.length < 1) return;
@@ -39,7 +44,7 @@ function createStatsHandler(recordBuilder) {
         var record = createRecord(recordBuilder, req, res);
         notifyObservers(record);
       } catch (err) {
-        console.warn('strong-express-metrics ignored error', err);
+        console.warn('strong-express-metrics ignored error', err.stack);
       }
     });
     next();
@@ -50,7 +55,7 @@ function createRecord(builder, req, res) {
   var record = {
     timestamp: Date.now(),
     client: {
-      address: req.socket.address().address,
+      address: req.__clientAddress,
       // NOTE(bajtos) How to extract client-id and username?
       // Should we parse Authorization header for Basic Auth?
       id: undefined,
