@@ -1,9 +1,9 @@
 ### Contributing ###
 
-Thank you for your interest in `strong-xstats`, an open source project
-administered by StrongLoop.
+Thank you for your interest in `strong-express-metrics`,
+an open source project administered by StrongLoop.
 
-Contributing to `strong-xstats` is easy. In a few simple steps:
+Contributing to `strong-express-metrics` is easy. In a few simple steps:
 
   * Ensure that your effort is aligned with the project's roadmap by
     talking to the maintainers, especially if you are going to spend a
@@ -14,7 +14,7 @@ Contributing to `strong-xstats` is easy. In a few simple steps:
   * Adhere to code style outlined in the [Google C++ Style Guide][] and
     [Google Javascript Style Guide][].
 
-  * Sign the [Contributor License Agreement](https://cla.strongloop.com/agreements/strongloop/strong-xstats)
+  * Sign the [Contributor License Agreement](https://cla.strongloop.com/agreements/strongloop/strong-express-metrics)
 
   * Submit a pull request through Github.
 
