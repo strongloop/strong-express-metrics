@@ -1,6 +1,6 @@
 {
   "name": "strong-express-metrics",
-  "version": "1.0.0-1",
+  "version": "1.0.0",
   "description": "An Express middleware for collecting HTTP statistics.",
   "keywords": [
     "StrongLoop",
@@ -22,8 +22,7 @@
     "name": "Dual Artistic-2.0/StrongLoop",
     "url": "https://github.com/strongloop/strong-express-metrics/blob/master/LICENSE.md"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "chai": "^1.10.0",
     "express": "^4.11.1",
