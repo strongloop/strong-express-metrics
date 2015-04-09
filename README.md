@@ -76,6 +76,14 @@ The middleware produces records in the following format.
   },
   data: {
     // placeholder for user-provided data
+  },
+  // extra info filled for LoopBack applications only
+  loopback: {
+    modelName: 'User',
+    remoteMethod: 'prototype.updateAttributes',
+    // instanceId is undefined for static methods
+    // e.g. User.find() or User.login()
+    instanceId: 1234
   }
 }
 ```

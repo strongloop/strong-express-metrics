@@ -28,6 +28,8 @@
     "express": "^4.11.1",
     "jscs": "^1.10.0",
     "jshint": "^2.6.0",
+    "loopback": "^2.15.0",
+    "loopback-datasource-juggler": "^2.23.0",
     "mocha": "^2.1.0",
     "supertest": "^0.15.0"
   }

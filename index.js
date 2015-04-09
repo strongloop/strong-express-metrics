@@ -81,6 +81,8 @@ function createRecord(builder, req, res) {
     }
   };
 
+  addLoopBackInfo(record, req, res);
+
   var custom = builder && builder(req, res);
 
   if (custom) {
@@ -89,6 +91,25 @@ function createRecord(builder, req, res) {
   }
 
   return record;
+}
+
+function addLoopBackInfo(record, req, res) {
+  var ctx = req.remotingContext;
+  if (!ctx) return;
+
+  var method = ctx.method;
+  var lb = record.loopback = {
+    modelName: method.sharedClass ? method.sharedClass.name : null,
+    remoteMethod: method.name
+  };
+
+  if (!method.isStatic) {
+    lb.remoteMethod = 'prototype.' + lb.remoteMethod;
+    lb.instanceId = ctx.ctorArgs && ctx.ctorArgs.id;
+  } else if (/ById$/.test(method.name)) {
+    // PersistedModel.findById, PersistedModel.deleteById
+    lb.instanceId = ctx.args.id;
+  }
 }
 
 var observers = [];
