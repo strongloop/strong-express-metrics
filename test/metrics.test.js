@@ -9,7 +9,7 @@ xstats.onRecord(function(data) {
   return onRecord && onRecord(data);
 });
 
-describe('xstats', function() {
+describe('express metrics', function() {
   var app, server, request, records;
   beforeEach(function setup(done) {
     records = null;
@@ -90,6 +90,16 @@ describe('xstats', function() {
       if (err) return done(err);
       var now = Date.now();
       expect(records).to.have.property('timestamp').within(now - 300, now);
+      done();
+    });
+  });
+
+  it('adds `version` property', function(done) {
+    var VERSION = require('../package.json').version;
+    app.use(xstats());
+    request.get('/').end(function(err, res) {
+      if (err) return done(err);
+      expect(records).to.have.property('version', VERSION);
       done();
     });
   });

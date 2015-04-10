@@ -55,6 +55,7 @@ The middleware produces records in the following format.
 
 ```js
 {
+  version: require('./package.json').version,
   timestamp: Date.now(),
   client: {
     address: req.socket.address().address,

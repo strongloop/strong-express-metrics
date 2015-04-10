@@ -1,6 +1,8 @@
 var cluster = require('cluster');
 var extend = require('util')._extend;
 
+var VERSION = require('./package.json').version;
+
 /**
  * Create a middleware handler for collecting statistics.
  *
@@ -53,6 +55,7 @@ function createStatsHandler(recordBuilder) {
 
 function createRecord(builder, req, res) {
   var record = {
+    version: VERSION,
     timestamp: Date.now(),
     client: {
       address: req.__clientAddress,
