@@ -1,6 +1,8 @@
 var cluster = require('cluster');
 var extend = require('util')._extend;
 
+var VERSION = require('./package.json').version;
+
 /**
  * Create a middleware handler for collecting statistics.
  *
@@ -53,6 +55,7 @@ function createStatsHandler(recordBuilder) {
 
 function createRecord(builder, req, res) {
   var record = {
+    version: VERSION,
     timestamp: Date.now(),
     client: {
       address: req.__clientAddress,
@@ -81,6 +84,8 @@ function createRecord(builder, req, res) {
     }
   };
 
+  addLoopBackInfo(record, req, res);
+
   var custom = builder && builder(req, res);
 
   if (custom) {
@@ -89,6 +94,25 @@ function createRecord(builder, req, res) {
   }
 
   return record;
+}
+
+function addLoopBackInfo(record, req, res) {
+  var ctx = req.remotingContext;
+  if (!ctx) return;
+
+  var method = ctx.method;
+  var lb = record.loopback = {
+    modelName: method.sharedClass ? method.sharedClass.name : null,
+    remoteMethod: method.name
+  };
+
+  if (!method.isStatic) {
+    lb.remoteMethod = 'prototype.' + lb.remoteMethod;
+    lb.instanceId = ctx.ctorArgs && ctx.ctorArgs.id;
+  } else if (/ById$/.test(method.name)) {
+    // PersistedModel.findById, PersistedModel.deleteById
+    lb.instanceId = ctx.args.id;
+  }
 }
 
 var observers = [];
