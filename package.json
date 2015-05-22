@@ -19,8 +19,8 @@
     "test": "mocha"
   },
   "license": {
-    "name": "Dual Artistic-2.0/StrongLoop",
-    "url": "https://github.com/strongloop/strong-express-metrics/blob/master/LICENSE.md"
+    "name": "StrongLoop",
+    "url": "https://github.com/strongloop/strong-express-metrics/blob/master/LICENSE"
   },
   "dependencies": {},
   "devDependencies": {
