@@ -2,6 +2,7 @@ var cluster = require('cluster');
 var extend = require('util')._extend;
 
 var VERSION = require('./package.json').version;
+var debug = require('debug')('strong-express-metrics');
 
 /**
  * Create a middleware handler for collecting statistics.
@@ -118,10 +119,12 @@ function addLoopBackInfo(record, req, res) {
 var observers = [];
 
 function onRecord(observer) {
+  debug('Adding an observer');
   observers.push(observer);
 }
 
 function notifyObservers(data) {
+  debug('Emitting metrics: ', data);
   for (var i = 0; i < observers.length; i++) {
     observers[i](data);
   }
