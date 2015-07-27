@@ -33,6 +33,6 @@
     "loopback": "^2.18.0",
     "loopback-datasource-juggler": "^2.30.1",
     "mocha": "^2.1.0",
-    "supertest": "^1.0.1"
+    "supertest": "^0.15"
   }
 }
