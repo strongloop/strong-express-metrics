@@ -21,6 +21,7 @@ describe('express metrics', function() {
     };
 
     app = express();
+
     server = http.createServer(app);
     request = supertest(server);
     // Explicitly listen on an IPv4 address '127.0.0.1'
@@ -31,6 +32,12 @@ describe('express metrics', function() {
   afterEach(function stopServer(done) {
     server.close(done);
   });
+
+  function setupRoot() {
+    app.get('/', function(req, res, next) {
+      res.status(200).send({result: true});
+    });
+  }
 
   it('calls onRecord when the response is finished', function(done) {
     app.use(xstats(function(req, res) {
@@ -55,6 +62,7 @@ describe('express metrics', function() {
     app.use(xstats(function(req, res) {
       return { data: { duration: res.durationInMs } };
     }));
+    setupRoot();
 
     request.get('/').end(function(err, res) {
       if (err) return done(err);
@@ -66,6 +74,7 @@ describe('express metrics', function() {
 
   it('handles no builder function', function(done) {
     app.use(xstats());
+    setupRoot();
     request.get('/').end(function(err, res) {
       if (err) return done(err);
       expect(getProp(records, 'data')).to.eql({});
@@ -75,6 +84,7 @@ describe('express metrics', function() {
 
   it('adds `process` data', function(done) {
     app.use(xstats());
+    setupRoot();
     request.get('/').end(function(err, res) {
       if (err) return done(err);
       var proc = getProp(records, 'process');
@@ -86,6 +96,7 @@ describe('express metrics', function() {
 
   it('adds `timestamp` property', function(done) {
     app.use(xstats());
+    setupRoot();
     request.get('/').end(function(err, res) {
       if (err) return done(err);
       var now = Date.now();
@@ -97,6 +108,7 @@ describe('express metrics', function() {
   it('adds `version` property', function(done) {
     var VERSION = require('../package.json').version;
     app.use(xstats());
+    setupRoot();
     request.get('/').end(function(err, res) {
       if (err) return done(err);
       expect(records).to.have.property('version', VERSION);
@@ -138,6 +150,7 @@ describe('express metrics', function() {
         username: 'test-user'
       }};
     }));
+    setupRoot();
     request.get('/').end(function(err, res) {
       expect(getProp(records, 'client')).to.eql({
         address: '10.20.30.40',

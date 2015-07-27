@@ -22,19 +22,23 @@ describe('loopback metrics', function() {
     app = loopback();
     app.dataSource('db', { connector: 'memory' });
 
-    var Car = loopback.createModel('Car');
+    var Car = loopback.createModel('Car', {
+      name: String,
+      id: {type: String, generated: false, id: true}
+    });
     app.model(Car, { dataSource: 'db' });
 
     app.use(xstats());
-    app.use(loopback.rest());
+    app.use('/api', loopback.rest());
 
     // Explicitly listen on an IPv4 address '127.0.0.1'
     // Otherwise an IPv6 address may be reported by the server
     app.set('host', '127.0.0.1');
     app.set('port', 0);
+    app.set('legacyExplorer', false);
     server = app.listen(function() {
       request = supertest(app.get('url').replace(/\/$/, ''));
-      done();
+      Car.create({id: '1234', name: 'BMW'}, done);
     });
   });
 
@@ -43,7 +47,7 @@ describe('loopback metrics', function() {
   });
 
   it('provides model and method for static methods', function(done) {
-    request.get('/cars').end(function(err, res) {
+    request.get('/api/cars').end(function(err, res) {
       if (err) return done(err);
       expect(getProp(records, 'loopback')).to.eql({
         modelName: 'Car',
@@ -54,7 +58,8 @@ describe('loopback metrics', function() {
   });
 
   it('provides model, method and id for instance methods', function(done) {
-    request.put('/cars/1234').send({}).end(function(err, res) {
+    request.put('/api/cars/1234').send({}).end(function(err, res) {
+      console.log(err, res.statusCode);
       if (err) return done(err);
       expect(getProp(records, 'loopback')).to.eql({
         modelName: 'Car',
@@ -66,7 +71,7 @@ describe('loopback metrics', function() {
   });
 
   it('provides instance id for PersistedModel.findById', function(done) {
-    request.get('/cars/1234').end(function(err, res) {
+    request.get('/api/cars/1234').end(function(err, res) {
       if (err) return done(err);
       console.log('records\n', JSON.stringify(records, null, 2), '\n');
       expect(getProp(records, 'loopback'))
@@ -76,7 +81,7 @@ describe('loopback metrics', function() {
   });
 
   it('provides instance id for PersistedModel.deleteById', function(done) {
-    request.del('/cars/1234').end(function(err, res) {
+    request.del('/api/cars/1234').end(function(err, res) {
       if (err) return done(err);
       expect(getProp(records, 'loopback'))
         .to.have.property('instanceId', 1234);
