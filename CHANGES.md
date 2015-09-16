@@ -1,3 +1,9 @@
+2015-09-16, Version 2.0.2
+=========================
+
+ * Fix the test case with supertest@1.x (Raymond Feng)
+
+
 2015-06-24, Version 2.0.1
 =========================
 
