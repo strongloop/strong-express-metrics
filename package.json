@@ -18,10 +18,7 @@
     "pretest": "jscs . && jshint .",
     "test": "mocha"
   },
-  "license": {
-    "name": "StrongLoop",
-    "url": "https://github.com/strongloop/strong-express-metrics/blob/master/LICENSE"
-  },
+  "license": "SEE LICENSE IN LICENSE.md",
   "dependencies": {
     "debug": "^2.2.0"
   },
